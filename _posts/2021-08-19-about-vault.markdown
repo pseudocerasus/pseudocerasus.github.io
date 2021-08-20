@@ -20,6 +20,7 @@ Hashicorp의 Vault는 Getting Started가 잘 구성되어 있었습니다.
 [http://10.xxx.xx.35:8200](http://10.xxx.xx.35:8200)
 
 접속하시면 Token을 물어볼텐데, Token은 별도로 공유하겠습니다.
+<span style="color:grey"><sup>*사적인 글입니다</sup></span>
 
 접속이 되면, 몇가지 key value를 보실 수 있을 겁니다.
 
