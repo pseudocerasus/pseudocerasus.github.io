@@ -17,8 +17,6 @@ linux kernel의 module은 확장자 .ko 를 갖습니다.
 $ sudo insmod hello.ko 하면 인스톨 되는 겁니다.
 ```
 
-OOO이 이야기 한 insmod 가 이걸 의미하는 겁니다.
-
 아래와 같은 시험을 해 보세요.
 
 1. 우리의 데브워커에서는 insmod가 동작하지 않는지
