@@ -17,11 +17,10 @@ linux kernel의 module은 확장자 .ko 를 갖습니다.
 $ sudo insmod hello.ko 하면 인스톨 되는 겁니다.
 ```
 
-아래와 같은 시험을 해 보세요.
+아래와 같은 시험을 해 보세요.<span style="color:grey"><sup>Docker image는 ubuntu 18.04 정도면 충분합니다</sup></span>
 
-1. 우리의 데브워커에서는 insmod가 동작하지 않는지
-2. 그럼 부스트에서 혹은 스웜워커에서는 되는지
-3. 이와 동일한 시험을 docker run으로 `--privileged` 를 주고 docker run 했을때는 되는지, 옵션을 안주면 안되는지.
+* Docker Container를 하나 실행해서 insmod가 동작하는지 확인해 보세요.
+* Container를 실행할때 docker run 옵션으로 `--privileged` 를 주고 실행하면 어떻게 되는지 확인해 보세요.
 
 커널 개발을 하려면, kernel header 파일들을 가지고 있어야 합니다.
 
@@ -37,7 +36,7 @@ $ sudo apt-get install kmod
 Makefile은 명령어 시작할때, 반드시 제일 앞에 탭이 들어가야 함을 기억하세요.
 
 ```c
-FILE NAME : hello.c
+//FILE NAME : hello.c
 
 #include <linux/init.h>
 #include <linux/module.h>
@@ -59,7 +58,7 @@ MODULE_LICENSE("GPL");
 ```
 
 ```makefile
-FILE NAME : Makefile
+#FILE NAME : Makefile
 
 obj-m = hello.o
 KDIR := /lib/modules/$(shell uname -r)/build
