@@ -3,7 +3,8 @@ layout: post
 title:  "repo init/sync에 대하여"
 date:   2015-01-07 13:11:38 +0900
 ---
-여러 곳의 git저장소를 모아서 소스트리<span style="color:grey"><sup>source tree</sup></span>를 구성하고 싶을때, 우리는 쉽게 [repo](https://source.android.com/setup/develop?hl=ko#installing-repo)를 사용하고 manifest.xml 파일로 버전을 관리합니다.<br>
+여러 곳의 git저장소를 모아서 소스트리<span style="color:grey"><sup>source tree</sup></span>를 구성하고 싶을때, 우리는 쉽게 [repo](https://source.android.com/setup/develop?hl=ko#installing-repo)를 사용하고 manifest.xml 파일로 버전을 관리합니다.
+
 repo init, repo sync는 어떻게 동작하는지 이야기 해 보려고 합니다.<br>
 <br>
 <br>

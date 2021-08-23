@@ -3,7 +3,8 @@ layout: post
 title:  "Gerrit 권한 설정"
 date:   2016-11-03 11:22:06 +0900
 ---
-Gerrit<span style="color:green"><sup> 2.1x 버전</sup></span>의 권한 설정을 설명 합니다.<br>
+Gerrit<span style="color:green"><sup> 2.1x 버전</sup></span>의 권한 설정을 설명 합니다.
+
 <br>
 <br>
 <br>
