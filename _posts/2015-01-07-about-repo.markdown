@@ -9,7 +9,7 @@ repo init, repo sync는 어떻게 동작하는지 이야기 해 보려고 합니
 <br>
 <br>
 <br>
-> repo/manifest.xml
+> **repo/manifest.xml**
 <br>
 
 repo를 사용하면 다음과 같이 `repo init` 부터 하게 됩니다. <br>
@@ -39,7 +39,7 @@ symbolic link 인데, 하위 폴더인 `manifests`안의 `default.xml` 파일을
    <br>
    <br>
    <br>
-> repo Launcher
+> **repo Launcher**
 <br>
 
 repo툴<span style="color:grey"><sup>Launcher</sup></span>은 repo init 명령을 통해서 google이 배포한 `git-repo.git`을 clone 합니다.<br>
@@ -66,7 +66,7 @@ origin  https://gerrit.googlesource.com/git-repo (push)
    <br>
 <br>
 <br>
-> manifest.xml
+> **manifest.xml**
 
 `repo sync` 명령이 들어오면 `repo`는 `manifest.xml`을 참고해서 소스트리를 다운로드 합니다.<br>
 보통은 `manifest.xml -> manifests/default.xml` 과 같이 `default.xml` 을 가리키고 있습니다.<br>
@@ -146,7 +146,7 @@ drwxrwxr-x 7 pi.epicycle pi.epicycle  4096  1월 27 21:53 repo
 <br>
 <br>
 <br>
-> repo init 정보 확인
+> **repo init 정보 확인**
  
 마지막으로 repo sync한 소스트리가 어떤 Branch 이름으로 repo init 한 것인지 살펴 보겠습니다.<br>
 `.repo` 폴더 안에는 `manifests.git` 폴더가 있습니다.<br>

@@ -8,7 +8,7 @@ Gerrit<span style="color:green"><sup> 2.1x 버전</sup></span>의 권한 설정�
 <br>
 <br>
 <br>
-> Rights Inherit From
+> **Rights Inherit From**
 <br>
 
 Gerrit의 권한 설정은 각 Git Repository(Project※)마다 Access 메뉴에서 합니다.<br>
@@ -42,7 +42,7 @@ Access 메뉴에 들어가 보면 가장 먼저 `Rights Inherit From: All-Projec
 <br>
 <br>
 <br>
-> refs/
+> **refs/**
 <br>
 
 `refs/` 는 Git의 branch와 tag와 같은 정보에 접근하기 위한 path로 생각하면 됩니다.<br>
