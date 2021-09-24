@@ -34,9 +34,9 @@ markdown: kramdown
 #   - vendor/ruby/
 
 analytics:
-  provider: google
+  provider: "google-gtag"
   google:
-    tracking_id: G-L9VS5163X7
+    measurement_id: "G-L9VS5163X7"
 
 lang: ko
 timezone: Asia/Seoul
