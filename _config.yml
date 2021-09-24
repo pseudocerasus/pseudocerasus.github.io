@@ -33,10 +33,12 @@ markdown: kramdown
 #   - vendor/gems/
 #   - vendor/ruby/
 
-analytics:
-  provider: "google-gtag"
-  google:
-    measurement_id: "G-L9VS5163X7"
+#analytics:
+#  provider: "google-gtag"
+#  google:
+#    measurement_id: "G-L9VS5163X7"
+
+google_analytics: UA-208526362-1
 
 lang: ko
 timezone: Asia/Seoul
