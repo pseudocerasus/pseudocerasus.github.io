@@ -22,3 +22,96 @@ App을 컨테이너화 하는 대표적인 이유!
      이때는 On-Prem에도 kernel, VM에도 kernel이 있게 된다.
   
   
+경량화 OS가 목적인 과제가 있는데, 관련해서 궁금한 점이 있습니다.
+Q1) 경량화 OS가 목적이다 보니, Pod 하나 위에 컨테이너를 하나 올려서 서비스로 제공합니다.
+    사실 유저에게 VM과 같은 환경을 컨테이너로 안정적으로 제공하고 싶었습니다.
+    가장 처음 만난 문제가 Pod eviction 문제였습니다.
+    간단하게 생각했을때, Pod eviction이 일어나지 않도록
+    (1) Pod 리소스를 충분히 제공하는 것
+    (2) eviction이 일어나지 않도록 configure를 수정하는 것을 검토했었습니다.
+    이런 사례에서 정답이라고 할만한 방법이 없을까요?
+    OS컨테이너가 좋지 못한 선택인가 싶어서요...
+Q2) 경량화 OS(VM)을 목적으로 하는 과제가 현장에 사례가 많이 있나요?
+
+A) VDI를 컨테이너로 가져가려는 시도들도 많이 있다.
+
+
+네트워크 로직은 별도로 빼내서 만들고 관리하자. - 서비스 매시
+엔터프라이즈 환경이 컨테이너들의 집합으로 커지면 결국 서비스 매시하고 연결될 수 밖에 없다.
+이런 것들이 갈수록 생태계를 만들어 가고 있다.
+
+k8s는 자동화 환경이 중요한 목적이기 때문에 GUI 콘솔 도구가 별로 없다.
+CI/CD의 자동화가 큰 목적이다.
+
+선언형
+  - 개발에 있어서 코드 작성이 명령어 방식과 선언형 방식이 있는데, 어떤쪽이 자동화에 더 유리한가.
+  - 선언형이 더 유리하다. yaml, json등을 사용하게 되는 배경.
+
+k8s 내부 구조
+  - 컨트롤 플레인 : 적절한 라우팅에 대한 결정 및 권한
+  - 데이터 플레인 : 라우터를 통해 트래픽 전달
+
+여러대의 호스트가 필요해지고 -> 클러스터 : 노드의 그룹
+
+클러스터
+  - 예전에는 master / slave
+  - 최근에는 manager / worker 로 변경
+  - 다른용어중에 control plane / data plane(또는 node cluster)
+  
+  Client -> req -> API Server -> Scheduler
+    API Server : node 중에 어디에 배포할 것인가? 판단
+                 이 판단을 하는 녀석 Scheduler
+
+  이 요청을 받아서 처리하는 녀석이 kubelet
+  kubelet이 일을 하고 결과에 문제가 없으면 -> API Server
+  
+  현상 : current
+  사용자 요청 : desired (nginx를 2개 띄워라 같은 ...)
+  
+  Controller가 desired와 current가 맞는지(sync) 체크를 한다.
+  
+  그리고 데이터는 etcd에 저장
+  --
+  etcd, API Server, Scheduler, Controller 를 묶어서 control plane 이라고 부른다.
+  
+  --
+  node cluster쪽은
+  kubelet
+  kube-proxy : 컨테이너의 통신을 책임진다
+    - 최근에는 kube-proxy는 kernel 레벨의 iptables를 이용한다.
+  
+  --
+  그리고 현업에서는 여기에 수 많은 plugin이 들어간다.
+  
+ --
+ 시스템이 커지면 위 등장인물들중 누가 워크로드가 가장 커질까?
+ 모든 통신은 API Server를 거쳐야 한다. 그래서 API Server가 워크로드가 가장 커진다.
+ 
+ --
+ EKS는 control plane은 보이지 않는다. 고객은 node cluster만 볼 수 있다.
+ 즉, EKS는 control plane을 관리해주는 관리형 서비스다.
+ 
+ 파게이트는(fargate)로 구성하면 Data plane도 보이지 않는다.
+ 이 경우는 Data plane도 EKS가 관리해 준다.
+ 
+ --
+ API Server는 Endpoint가 중요하다.
+ API server는 2개의 Endpoint를 가지고 있다.
+ 하나는 내부를 위해서 하나는 외부와 연결하기 위해서.
+ 
+ $ k cluster-info
+Kubernetes master is running at https://8D3545D540B0C7E179498F5082A8BB1F.yl4.ap-northeast-2.eks.amazonaws.com
+CoreDNS is running at https://8D3545D540B0C7E179498F5082A8BB1F.yl4.ap-northeast-2.eks.amazonaws.com/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+Metrics-server is running at https://8D3545D540B0C7E179498F5082A8BB1F.yl4.ap-northeast-2.eks.amazonaws.com/api/v1/namespaces/kube-system/services/https:metrics-server:/proxy
+
+여기 보이는 https 주소가 외부 endpoint
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+LGESCSICBLD37V[ /home/dongyoung.yoon/remove-cockpit-worker]$ k get svc
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   172.20.0.1   <none>        443/TCP   223d
+ 
+여기 보이는 ip가 내부 endpoint
+
+ 
+ 
