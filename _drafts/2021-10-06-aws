@@ -113,5 +113,124 @@ kubernetes   ClusterIP   172.20.0.1   <none>        443/TCP   223d
  
 여기 보이는 ip가 내부 endpoint
 
- 
- 
+-- 
+Pod에 대해서
+  - ReplicaSet이 Pod와 묶이면, Controller의 제어가 들어가게 됨
+  - Controller 제어가 들어가면 Managed Pod
+  - 그렇지 않은 Pod는 Unmanaged Pod
+  - 보통 ReplicaSet을 직접 사용하지 않고, Deployment를 활용해서 ReplicaSet을 핸들링 한다.
+  - Deployment > ReplicaSet > Pod 로 제어된다.
+  - 보통 비동기 병렬처리로 job을 핸들링 한다고 보면 된다.
+    수많은 App. 여러개를 병렬로 job을 실행한다고 보면 된다.
+  - StatefulSet > Pod에 영향
+  - Volume은 PVC, PV, Storage Class 등
+  - HPA, VPA
+  - ConfigMap : 암호화 확보 되지 않는다. - 운영중에 누구나 볼 수 있다.
+  - Secret : 암호화 되어 있다.
+  
+--
+PodSpec을 사용하여 Pod정의
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-example
+
+어떤 객체가 있을때, 어떤 API 정의가 Spec.을 정의하는 것이다.
+
+k8s는 API의 set이다. 라고 할 수도 있다.
+
+API : https://kubernetes.io/ko/docs/reference/using-api/
+
+--
+Volume
+CSI: Container Storage Interface
+  참고 블로그 글 : https://hyperconnect.github.io/2021/07/05/ebs-csi-gp3-support.html
+
+참고: AWS는 EBS, EFS, 그리고 FSx for Lustre 가 있다.
+Fargate의 경우 CSI 드라이버를 별도 구성할 필요가 없다. Fargate도 EFS를 지원한다.
+
+
+pod eviction
+resouce QoS
+  - Best-Effort : 리소스 설정 안함. node 걸 다 그대로 씀
+  - Bustable : limit - request 다른 값. 
+  - Guaranteed : limit - request 같은 값.
+  
+  1순위로 죽이는것 Best-Effort
+  2순위로 Bustable이 죽고,
+  마지막으로 죽이는게 Guaranteed
+
+--
+resource 설정 관련해서
+EKS가 아닌 private로 구성한 k8s cluster에서 control plane pod들을 찾아봤습니다.
+예를 들어서, api-server 나 kube-proxy 같은 pod가 kube-system 이라는 namespace에 배포되어 있는데,
+이 pod들은 제 생각에는 Best-Effort 면 안되고, Guaranteed 여야 한다고 생각했는데,
+api-server와 kube-proxy pod가 resource가 정의되지 않은(Best-Effort) 형태로 설정되어 있는 것 같은데,
+이건 제가 보고 있는 cluster가 올바르지 못한 설정을 했다고 봐야 할까요?
+
+--
+service의 selector 
+pod의 label
+참조관계에 사용된다. 
+
+Service의 select에 type=dev가 설정되어 있고,
+  Pod의 label에 type=dev가 설정되어 있으면, 
+  
+  Service의 select가 pod의 label을 참조한다고 보면 된다. 선택한다고 보면 된다.
+
+Pod의 select는 Node의 label을 참조한다.
+
+--
+그리고 이제 taint와 tolerations 이 나온다.
+node에 taint를 주면, 이 node에는 taint key value가 설정된 pod는 못 들어온다.
+node에 tolerations 에 key value를 주면 이 tolerations을 갖는 pod가 들어올 수 있다.
+
+--
+DaemonSet
+
+--
+$ kubectl api-resources
+
+--
+이제 EKS
+
+서로 다른 AZ에 배포하고 싶을때,
+VPC의 subnet을 이용해서 AZ를 각기 다른 영역에 배포할 수 있다.
+
+EKS의 여러 AZ에 pod을 배포하는것이 VPC의 subnet을 분리해서 AZ를 각기 다른 영역에 배포하는 것이라면,
+VPC의 총 ip를 AZ에 각기 나눠줘야하는(나눠서 설정해 놓는) 것이고,
+ip가 설정되지 않은 AZ는 사용할 수 없는(사용하지 않는) 것이라고 이해하면 되나요?
+AZ를 구분하는 것이 VPC의 subnet이 유일한 확인방법(솔루션)인가 궁금해서요
+
+
+데이터 플레인 옵션
+1. EC2를 직접 구성하는 것. 하나 하나 직접 만드는 것
+2. 관리형 노드그룹에 넣는 것. 이건 내가 만들지 않고 선언만 한다. 그럼 AWS가 만들어줌.
+3. Fargate. 인프라에서 거의 손 떼는 것. AWS가 다 해달라고 하는 것.
+
+우리 수업은 2번 방법
+EKS에서는 Data Plane을 Node Group 이라고 부른다.
+
+참고: Fargate는 아직 GPU 지원을 하지 않고 있다.
+
+--
+AWS
+  - 인증: IAM - user role
+  - 권한: IAM - policy
+  
+k8s
+  - 인증: 별도 인증 프로바이더 제공하지 않음.
+  - 권한: RBAC
+*k8s는 인증 프로바이더를 별도로 제공하지 않는다.
+ 왜냐하면 대부분의 고객이 고객사의 인증시스템이 있기 때문에,
+ 굳이 k8s가 별도 인증 프로바이더를 제공하지 않는다.
+ 유저의 인증 프로바이더가 있을테니 그걸 사용하라는 의미.
+
+
+
+
+
+
+
+
