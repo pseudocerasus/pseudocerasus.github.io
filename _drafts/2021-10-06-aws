@@ -253,6 +253,34 @@ k8s
   - eksctl : 권장하는 방법이다.
 
   AWS의 CloudFormation, cdk는 뭘까?
+
+--
+certificate-authority-data : 클러스터에 접속할 수 있는 인증서
+
+cluster 배포 실습 : 동영상 - http://bit.ly/awstc-ekslabs
+
+aws example github : https://github.com/weaveworks/eksctl/tree/main/examples
+
+1번 실습 진행 : 클러스터 배포
+
+--
+Helm
+
+
+--
+GitOps
+  - Jenkin-X, Flux, 아르고 ... 비슷한 도구
+
+--
+2번 실습
+  - 두개의 파이프라인
+  - 도커 파일 수정 > push > 빌드 > registry에 업로드 > flux가 이걸 인지 > heml > eks에 배포
+  - 차트 파일 수정 > push > 빌드 > registry에 업로드 ... 동일
+
   
-  
+
+
+
+
+
 
