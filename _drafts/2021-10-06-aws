@@ -277,9 +277,52 @@ GitOps
   - 도커 파일 수정 > push > 빌드 > registry에 업로드 > flux가 이걸 인지 > heml > eks에 배포
   - 차트 파일 수정 > push > 빌드 > registry에 업로드 ... 동일
 
-  
+--
+모듈 5
+개요:
+  - Amazon EKS 클러스터에서 관찰 기능 (observability) 구성
+  - 지표 수집
+  - 자동 스케일링에 지표 사용
+  - 로그 관리
+  - Amazon EKS에서 어플리케이션 추적
+  - 관찰 기능으로부터 인사이트 얻기 및 적용
+  - 실습 3
 
 
+- k8s에서 지표는 네트워크상에 쌓아 놓아야 한다. 로컬에 쌓아 놓으면 의미가 없다.
+- 지표는 중앙화 관리가 필요하다.
+
+--
+지표
+  - Prometheus 지표 (지표 형식)
+    : 우리가 생각하는 개념으로는 프로메테우스는 도구
+      그것말고 프로메테우스의 개념은 지표의 형식. 즉 데이터의 형식에 대한 표준 포멧이다.
+      그리고 추가로 PromQL 쿼리 언어가 있다. 그래서 프로메테우스를 쿼리 언어로 생각할 수도 있다.
+
+
+EKS에서는
+  - 컨트롤 플레인
+    : 제대로 동작하는지 확인은 해야 하는것 아닌가?
+      콘솔로 들어가면, EKS - Cluster - CloudWatch log group 에서 각 등장인물을 Enabled 시키면 된다.
+      성능 데이터는 프로메테우스 포멧으로 생성이 되고 있다.
+      이걸 알아낼 수 있는 방법은
+       $ kubectl get --raw /metrics
+
+    * 참고로 최근에 EKS에는 Serverless로
+    Amazon Managed Service for Prometheus (아직 서울 리전에 적용은 안됐음)
+    Amazon Managed Service for Grafana
+    가 생겼다.
+    
+    Prometheus 또는 Grafana 가 대세 도구가 되기전에 EKS에는 CloudWatch - Container Insights 가 있었다. (지금도 있다)
+
+  - 데이터 플레인
+    : 
+
+  - VPA(Vertical Pod Autoscaler) 는 별도 설치
+
+
+-
+추적(Tracing)
 
 
 
