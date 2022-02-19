@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Data Preprocessing (1) - Numpy ndarray (1)"
+title:  "Data Preprocessing - Numpy ndarray (1)"
 date:   2022-02-19 15:43:01 +0900
 ---
 Numpy ndarray 살펴보기 (1) : 만들기, 데이터타입, 형변환, reshape
