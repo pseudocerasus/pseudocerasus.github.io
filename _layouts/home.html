@@ -38,13 +38,13 @@ layout: default
     {% endif %}
 
     Page: {{ paginator.page }} of {{ paginator.total_pages }}
-
     {% if paginator.next_page %}
       <a href="{{ paginator.next_page_path | relative_url }}">Next &raquo;</a>
     {% endif %}
   </nav>
   {% endif %}
 
+  </br>
   {% if site.plugins contains "jekyll-feed" %}
     <a href="{{ "/feed.xml" | relative_url }}"><div id="rss-icon" class="mb-2"></div></a>
   {% endif %}

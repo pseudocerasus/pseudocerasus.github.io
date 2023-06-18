@@ -1,4 +1,4 @@
-title: Epicycle
+title: Epicycle's --dry-run
 author: pi.epicycle
 email: pi.epicycle@pm.me
 description: >
@@ -6,8 +6,8 @@ description: >
 plugins:
   - jekyll-seo-tag
   - jekyll-paginate
-  - jekyll-feed
   - jekyll-redirect-from
+#  - jekyll-feed
 
 minima-reboot:
   date_format: "%b %d, %Y"
@@ -43,5 +43,6 @@ google_analytics: UA-208526362-1
 lang: ko
 timezone: Asia/Seoul
 
-host: 192.168.0.46
+#host: 192.168.0.46
+host: 127.0.0.1
 port: 4000
